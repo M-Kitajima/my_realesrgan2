@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- CSS files -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>[Index] - 画像拡大アプリ Ver 0.1</title>
+</head>
+
+<body>
+    <br>
+    <div class="common-set">
+        <div class="card w-50" style="background-color: #222222;">
+            <div class="card-body">
+                <!-- title -->
+                <p class="card-text"><small class="text-muted">* Powered by Real-ESRGAN *</small></p>
+                <h1 class="alert alert-success" style="font-weight: bold;">画像拡大アプリ Version 0.1 </h1>
+                <h4 class="card-title">～画像を（比較的）綺麗に4倍に拡大します～</h4>
+                <br>
+                <hr>
+
+                <!-- Forms -->
+                <br>
+                <form method = post enctype = multipart/form-data>
+                    <div class="form-group">
+                        <label for="inputFile" style="font-weight: bold;">画像の選択</label>
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="inputFile" name="filename">
+                            <label class="custom-file-label" for="inputFile" data-browse="参照">拡大したい画像を選択(ここにドロップすることもできます) ※JPG/PNG形式のみ</label>
+                          </div>
+                          <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-secondary input-group-text" id="inputFileReset">取消</button>
+                          </div>
+                        </div>
+                      </div>
+                    {% if error_message %}
+                    <p style="color: red;">{{ error_message }}</p>
+                    {% endif %}
+                    <p style="color: aqua;"><input type = submit value = "★拡大処理実行★" class="btn btn-primary">
+                    ※処理中は画面を閉じたりリロードせずそのままお待ちください※</p>
+                </form>
+                <br>
+                <hr>
+
+                <!-- howto/notice -->
+                <br>
+                <p class="card-text" style="font-weight: bold; font-size: larger; color: red;">★使い方★</p>
+                <p class="card-text" style="font-size: smaller;">
+                    (1) 上記の「画像の選択」下部のボックスに画像をドラッグアンドドロップします<br>
+                    （または「参照」を押すとファイル選択画面が表示されるので、そちらからファイルを選択することも可能です）<br>
+                    (2) 「★拡大処理実行★」ボタンを押します<br>
+                    (3) 拡大処理完了後に拡大処理完了ページへ遷移します<br>
+                    (4) 拡大後画像をダウンロードしたい場合は「拡大処理後画像のダウンロード」からダウンロード可能です
+                </p>
+                <p class="card-text" style="font-weight: bold; font-size: larger; color: red;">★注意とおことわり★</p>
+                <p class="card-text" style="font-size: smaller;">
+                    (1) 対応可能ファイルはJPG形式またはPNG形式のみになります<br>
+                    (2) デプロイ先のサーバー（Render.com）が無料プランということもありポンコツなので、以下制限事項をご確認ください<br>
+                    　●　画像サイズ：120×120までの対応です（本当は800×800くらいまで対応したい。。）<br>
+                    　●　処理に最大2分くらいかかります。。<br>
+                    　<u>※処理中は画面を閉じたりリロードせずそのままお待ちください※</u>
+                </p>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+        <script>
+            bsCustomFileInput.init();
+            document.getElementById('inputFileReset').addEventListener('click', function() {
+                bsCustomFileInput.destroy();
+
+                var elem = document.getElementById('inputFile');
+                elem.value = '';
+                var clone = elem.cloneNode(false);
+                elem.parentNode.replaceChild(clone, elem);
+
+                bsCustomFileInput.init();
+            });
+        </script>
+<!--
+        <h1>
+            画像拡大アプリ (Ver 0.01α)
+        </h1>
+        <h2>
+            画像を（比較的）綺麗に4倍に拡大することができます！
+        </h2>
+        <p style="color: red;"><b>★注意・おことわり★</b></p>
+        <p>
+            (1) 対応可能ファイルはJPG形式またはPNG形式のみになります<br>
+            (2) デプロイ先のサーバー（Render.com）が無料プランということもありポンコツなので、以下制限事項をご確認ください<br>
+            　●　画像サイズ：120×120までの対応です（本当は800×800くらいまで対応したい。。）<br>
+            　●　拡大率：2倍固定です（本当は4倍に拡大したい。。）<br>
+            　●　処理に3分くらいかかります。。<br>
+            　<b>※処理中は画面を閉じたりリロードせずそのままお待ちください※</b>
+        </p>
+        <form method = post enctype = multipart/form-data>
+        <p><input type = file name = filename></p>
+        {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
+        <input type = submit value = 拡大処理実行！！>
+        <p style="color: blue;"><b>※処理中は画面を閉じたりリロードせずそのままお待ちください※</b></p>
+        </form>
+-->
+
+    </div>
+</body>
+</html>

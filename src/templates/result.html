@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- CSS files -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>[拡大処理完了] - 画像拡大アプリ Ver 0.1</title>
+</head>
+
+<body>
+
+    <br>
+    <div class="common-set">
+        <table width="1000px">
+            <tr>
+                <td colspan="2">
+                    <h2 class="alert alert-success" role="alert" style="font-weight: bold;">変換（拡大処理）が完了しました</h2>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" class="td_center">
+                    <p style="font-weight: bold;">変換前（オリジナル）画像</p>
+                </td>
+                <td width="50%" class="td_center">
+                    <p style="font-weight: bold;">変換後（拡大）画像</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="td_center">
+                    <img src="{{ image_org }}">
+                </td>
+                <td class="td_center">
+                    <img src="{{ image_up }}">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <h4 class="alert alert-primary" role="alert" style="font-weight: bold;">拡大処理後画像のダウンロード</h4>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    　以下のボタンをクリックするとローカルPC上に変換後画像を保存できます。<br><br>
+                    　<button onclick="downloadImage()" type="button" class="btn btn-primary btn-lg">ダウンロード</button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="td_center">
+                    <hr>
+                    <button type="button" class="btn btn-outline-dark"><a href="./">トップへ戻る</a></button>
+                    <hr>
+                </td>
+            </tr>
+        </table>
+
+        <!--
+        <p>
+            <a href="{{ image_up }}" target="_blank">拡大処理後画像をオリジナルサイズで表示するにはここをクリック（別タブで開きます）</a>
+        </p>
+        -->
+        
+        <script>
+            function downloadImage() {
+                const imageUpURL = "{{ image_up }}"; // 拡大した画像のURLをここに入力
+                const link = document.createElement("a");
+                link.href = imageUpURL;
+                link.download = "拡大画像.jpg"; // ダウンロード時のファイル名
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        </script>
+    </div>
+
+</body>
+</html>
